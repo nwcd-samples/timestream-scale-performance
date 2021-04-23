@@ -1,6 +1,12 @@
 # Timestream 压测工具及方法
 
 
+## 免责声明
+建议测试过程中使用此方案，生产环境使用请自行考虑评估。
+当您对方案需要进一步的沟通和反馈后，可以联系 nwcd_labs@nwcdcloud.cn 获得更进一步的支持。
+欢迎联系参与方案共建和提交方案需求, 也欢迎在 github 项目 issue 中留言反馈 bugs。
+
+## 压测方法
 1. 打开 AWS console，在您希望的目标区域创建 timestream 以及 kinesis。 注：Timestream目前并未在所有的 AWS 区域上线，所有上线的区域请查看[此页面](https://aws.amazon.com/cn/timestream/pricing/),本文用的是 N.Virginia (us-east-1)区域.
 1. 在 Timestream 当中创建一个数据库，名为 ``kdaflink`` 。[点击查看创建方法](https://docs.aws.amazon.com/zh_cn/timestream/latest/developerguide/console_timestream.html#console_timestream.db.using-console)
 1. 创建一个 table 名为 ``kinesisdata1``。[点击查看创建方法](https://docs.aws.amazon.com/zh_cn/timestream/latest/developerguide/console_timestream.html#console_timestream.table.using-console)。注意：在这一步中，会设置数据从内存到磁性的生命周期。我们可以设置一个方便测试的数值，观测不同的存储介质对于查询的影响。
