@@ -3,7 +3,7 @@
 
 1. 打开 AWS console，在您希望的目标区域创建 timestream 以及 kinesis。 注：Timestream目前并未在所有的 AWS 区域上线，所有上线的区域请查看[此页面](https://aws.amazon.com/cn/timestream/pricing/),本文用的是 N.Virginia (us-east-1)区域.
 1. 在 Timestream 当中创建一个数据库，名为 ``kdaflink`` 。[点击查看创建方法](https://docs.aws.amazon.com/zh_cn/timestream/latest/developerguide/console_timestream.html#console_timestream.db.using-console)
-1. 创建一个 table 名为 ``kinesisdata1``。[点击查看创建方法](https://docs.aws.amazon.com/zh_cn/timestream/latest/developerguide/console_timestream.html#console_timestream.table.using-console)
+1. 创建一个 table 名为 ``kinesisdata1``。[点击查看创建方法](https://docs.aws.amazon.com/zh_cn/timestream/latest/developerguide/console_timestream.html#console_timestream.table.using-console)。注意：在这一步中，会设置数据从内存到磁性的生命周期。我们可以设置一个方便测试的数值，观测不同的存储介质对于查询的影响。
 1. 创建一个 kinesis data stream 名为 ``TimestreamTestStream``。[点击查看创建方法](https://docs.aws.amazon.com/streams/latest/dev/amazon-kinesis-streams.html#how-do-i-create-a-stream)
 1. 启动一台服务器 EC2， ``git clone`` 将此 repo 下载到到服务器上。
 1. 确保您的服务器已经安装了 [maven](https://maven.apache.org/install.html)，您可以通过 ``mvn -version`` 来验证是否安装。
