@@ -22,38 +22,42 @@ SELECT_LIMIT_20 = f"""
     """
 
 SELECT_BETWEEN_AND = f"""
-    SELECT vd.vin, vd.trip_id, vd.temp, vd.pressureLevel
+    SELECT vd.vin, vd.trip_id
         FROM "{DATABASE_NAME}"."{TABLE_NAME}" vd 
-        where vd.time BETWEEN TIMESTAMP '2021-04-01 06:49:47.000000000' AND TIMESTAMP '2021-04-06 08:49:47.000000000'
+        where vd.time BETWEEN TIMESTAMP '2021-04-01 06:49:47.000000000' AND TIMESTAMP '2021-04-26 08:49:47.000000000'
         AND vd.measure_name = 'powertrain_state'AND measure_value::double > 50
         Limit 20
     """
 
+
 SELECT_GROUP_BY = f"""
     SELECT vd.vin, COUNT(DISTINCT vd.trip_id) AS total
         FROM "{DATABASE_NAME}"."{TABLE_NAME}" vd
-        WHERE vd.pressureLevel = 'NORMAL'
-        AND vd.time BETWEEN TIMESTAMP '2021-04-01 06:49:47.000000000' AND TIMESTAMP '2021-04-06 08:49:47.000000000'
+        WHERE vd.measure_name= 'pressureLevel' AND measure_value::varchar = 'NORMAL'
+        AND vd.time BETWEEN TIMESTAMP '2021-04-01 06:49:47.000000000' AND TIMESTAMP '2021-04-26 08:49:47.000000000'
         GROUP BY vd.vin limit 20
     """
 
+
 SELECT_CASE = f"""
-    SELECT vd.vin, vd.trip_id, vd.systolic,
-        CASE vd.pressureLevel WHEN 'High' THEN 'alert' WHEN 'Low' THEN 'caution' ELSE 'go' END as instructions 
+    SELECT vd.vin, vd.trip_id,
+        CASE vd.measure_value::varchar WHEN 'High' THEN 'alert' WHEN 'Low' THEN 'caution' ELSE 'go' END as instructions  
         FROM "{DATABASE_NAME}"."{TABLE_NAME}" vd
-        WHERE vd.pressureLevel = 'NORMAL'
-        AND vd.time BETWEEN TIMESTAMP '2021-04-01 06:49:47.000000000' AND TIMESTAMP '2021-04-06 08:49:47.000000000'
+        WHERE vd.measure_name='pressureLevel' 
+        AND vd.time BETWEEN TIMESTAMP '2021-04-01 06:49:47.000000000' AND TIMESTAMP '2021-04-26 08:49:47.000000000'
         limit 20
     """
 
+
 SELECT_JOIN = f"""
-    SELECT vd.vin, vd.trip_id, vd.systolic,
-        CASE vd.pressureLevel WHEN 'High' THEN 'alert' WHEN 'Low' THEN 'caution' ELSE 'go' END as instructions 
+    SELECT vd.vin, vd.trip_id,
+        CASE vd.measure_value::varchar WHEN 'High' THEN 'alert' WHEN 'Low' THEN 'caution' ELSE 'go' END as instructions 
         FROM "{DATABASE_NAME}"."{TABLE_NAME}" vd, "{DATABASE_NAME}"."{RIGHT_TABLE_NAME}" vl
-        WHERE vd.pressureLevel = vl.pressureLevel AND (vd.pressureLevel = 'NORMAL')
-        AND vd.time BETWEEN TIMESTAMP '2021-04-01 06:49:47.000000000' AND TIMESTAMP '2021-04-06 08:49:47.000000000'
+        WHERE vd.measure_name = 'temp' AND vd.measure_name = vl.measure_name
+        AND vd.time BETWEEN TIMESTAMP '2021-04-01 06:49:47.000000000' AND TIMESTAMP '2021-04-26 08:49:47.000000000'
         Limit 20
     """
+
 
 SELECT_MAX = f"""
     SELECT max(vd.measure_value::double) as max_sys, vd.vin
