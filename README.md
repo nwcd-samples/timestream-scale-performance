@@ -38,4 +38,6 @@
    python3 timestream_kinesis_data_gen_blog.py --stream TimestreamTestStream --region us-east-1
 
    ```
+ 1. 此时，如无错误，``Amazon Timestream ``将持续被写入数据。可以在 ``kinesis`` 的监控，``Amazon Timestream``  监控中，观察写入延迟等指标。也可以在 ``Amazon Timestream``  中，通过 ``count`` 的方式查询写入条数。当观测达到目标数量级时，停止写入。
+ 1. 在后续测试中，我们会有一个JOIN的延迟测试，为了方便准备测试环境，创建一张与原表数据格式相同的表，命名为 ``kinesis600``，重复上述过程以准备这张新表的数据即可。
  

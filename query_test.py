@@ -3,15 +3,15 @@ from botocore.config import Config
 import json
 import time
 
-session = boto3.Session(profile_name='global', region_name='us-east-1')
+session = boto3.Session(profile_name='default', region_name='us-east-1')
 query_client = session.client(
     'timestream-query', endpoint_url='https://query-cell2.timestream.us-east-1.amazonaws.com')
 write_client = session.client('timestream-write', config=Config(read_timeout=20, max_pool_connections=5000,
                                                                 retries={'max_attempts': 10}))
 
 DATABASE_NAME = "kdaflink"
-TABLE_NAME = "kinesis-6k"
-RIGHT_TABLE_NAME = "kinesis600"
+TABLE_NAME = "kinesisdata1"  #测试表
+RIGHT_TABLE_NAME = "kinesis600"  #做Join操作的表。为方便测试，此处我们的JOIN表数据格式跟原表是一样的，只是数量级不同。如果不需要做JOIN测试，可以SKIP。
 QUERY_REPEAT = 5
 
 QUERY_COUNT = f"""
